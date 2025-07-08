@@ -1,0 +1,18 @@
+h1 {
+    text-align: center;
+    margin-top: 40px;
+}
+
+#errorMessage {
+    color: red;
+}
+
+.action {
+    width: 70px;
+}
+
+#checkbox {
+    border: solid 1px blue;
+    margin-left: 30px;
+    margin-top: 6px;
+}

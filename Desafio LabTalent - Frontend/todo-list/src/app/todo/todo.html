@@ -1,0 +1,99 @@
+<div class="container">
+
+    <h1>To-Do List</h1>
+
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+
+        {{ error }}
+
+    </div>
+
+    <div *ngIf="loading" class="text-center">
+
+        <div class="spinner-border" role="status">
+
+            <span class="visually-hidden">Carregando...</span>
+
+        </div>
+
+    </div>
+
+    <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)" *ngIf="!loading">
+
+        <div class="mb-3">
+
+            <label for="task" class="form-label">Adicione uma atividade à lista</label>
+            <input type="text" ngModel name="Nova Atividade" placeholder="Digite sua Atividade" class="form-control" id="task" aria-describedby="task" required>
+            <div *ngIf="myForm.invalid" id="errorMessage" class="form-text">Campo obrigatório</div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="myForm.invalid">Adicionar</button>
+
+        </div>
+
+    </form>
+
+    <hr>
+
+    <div *ngIf="!loading">
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th scope="col">Atividade</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Salvar</th>
+                    <th scope="col">Deletar</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let item of taskArray; let idx = index" [class.table-success]="item.completed">
+
+                    <td>
+                        <input #taskinput type="text" [value]="item.title" class="form-control" [readOnly]="editingIndex !== idx">
+                    </td>
+
+                    <td>
+                        <input type="checkbox" [checked]="item.completed" (change)="onCheck(idx, $event)" class="form-check-input" id="checkbox">
+                        <span class="ms-2">{{ item.completed ? 'Concluída' : 'Pendente' }}</span>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-warning btn-sm action" (click)="onEdit(idx)" [disabled]="editingIndex === idx">Editar</button>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-info btn-sm action" (click)="onSave(idx, taskinput.value)" [disabled]="editingIndex !== idx">Salvar</button>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-danger btn-sm action" (click)="onDelete(idx)">Deletar</button>
+                    </td>
+
+                </tr>
+
+                <tr *ngIf="taskArray.length === 0">
+
+                    <td colspan="5" class="text-center">Não existem atividades</td>
+                    
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p>Número de atividades: {{ count() }}</p>
+
+    </div>
+
+</div>
+
+
+
